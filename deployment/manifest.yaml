@@ -1,0 +1,85 @@
+name: $SERVICE_NAME
+
+image: $SERVICE_REPO
+
+version: $SERVICE_VERSION
+
+metadata:
+
+  team: observability
+
+  repo: https://github.com/mini-service
+
+
+
+# kubernetes resources
+
+resources:
+
+  requests:
+
+    cpu: 50m
+
+    memory: 100Mi
+
+  limits:
+
+    cpu: 100m
+
+    memory: 100Mi
+
+
+
+# health check used to gate upgrades / readinessProbe
+
+health:
+
+  uri: /health
+
+  wait: 0
+
+
+
+# exposed Service port
+
+#httpPort: 3000
+ports:
+ - port: 8082
+   name: server1
+ - port: 8080
+   name: server2
+
+
+
+# what regions it's deployed to
+
+regions:
+
+  - minikube
+
+  - kind
+  - aws
+
+
+
+# how it decides how many replicas to use
+
+autoScaling:
+
+  minReplicas: 1
+
+  maxReplicas: 4
+
+  metrics:
+
+    - type: Resource
+
+      resource:
+
+        name: cpu
+
+        target:
+
+          type: Utilization
+
+          averageUtilization: 50
