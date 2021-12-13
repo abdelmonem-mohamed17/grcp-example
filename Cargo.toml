@@ -1,0 +1,28 @@
+cargo-features = ["test-dummy-unstable"]
+
+[package]
+name = "helloworld-tonic"
+version = "0.1.0"
+authors = ["AzureAD\\AbdelmonemMohamed <abdelmonem.mohamed@va.ai>"]
+edition = "2018"
+
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[[bin]] # Bin to run the HelloWorld gRPC server
+name = "server"
+path = "src/server.rs"
+
+[[bin]] # Bin to run the HelloWorld gRPC client
+name = "helloworld-client"
+path = "src/client.rs"
+
+[dependencies]
+tonic = {version = "0.6.0", features = ["tls", "compression"]}
+prost = "0.9"
+tokio = { version = "1.0", features = ["macros", "rt-multi-thread"] }
+actix-web = "4.0.0-beta"
+
+[build-dependencies]
+tonic-build = {version = "0.6.0", features = ["prost", "compression"]}
+
